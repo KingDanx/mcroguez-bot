@@ -2,6 +2,9 @@ import { Client, GatewayIntentBits, AttachmentBuilder } from "discord.js";
 import fs from "fs/promises";
 import EdgeTTS from "@kingdanx/edge-tts-js";
 import { randomUUID } from "crypto";
+import { config } from "dotenv";
+
+config();
 
 const speaker = new EdgeTTS();
 
