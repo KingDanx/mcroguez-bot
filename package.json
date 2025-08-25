@@ -1,0 +1,20 @@
+{
+  "name": "mcroguez-bot",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development bun --watch run index.js",
+    "start": "NODE_ENV=production bun run index.js"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@kingdanx/edge-tts-js": "^1.0.11",
+    "discord.js": "^14.22.1"
+  }
+}
