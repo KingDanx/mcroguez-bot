@@ -1,6 +1,6 @@
 {
   "name": "mcroguez-bot",
-  "module": "index.ts",
+  "module": "index.js",
   "type": "module",
   "private": true,
   "scripts": {

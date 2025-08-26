@@ -17,6 +17,21 @@ const client = new Client({
   ],
 });
 
+function fixHisGramer(message) {
+  return message
+    .toLowerCase()
+    .replaceAll("\r", "")
+    .replaceAll("\n", "")
+    .replaceAll(" im ", " I'm ")
+    .replaceAll(" ill ", " I'll ")
+    .replaceAll(" ur ", " your ")
+    .replaceAll(" dont ", " don't ")
+    .replaceAll(" didnt ", " didn't ")
+    .replaceAll(" wont ", " won't ")
+    .replaceAll(" assa ", " assassination ")
+    .replaceAll(" def ", " definitely ");
+}
+
 client.once("clientReady", () => {
   console.log(
     `Bot is online as ${client.user.tag}! Monitoring channel ${process.env.CHANNEL_ID}.`
@@ -35,7 +50,7 @@ client.on("messageCreate", async (message) => {
   if (message.content.length >= 400) {
     try {
       speaker.tts.setVoiceParams({
-        text: message.content.replaceAll("\r", "").replaceAll("\n", ""),
+        text: fixHisGramer(message.content),
       });
 
       const filePath = await speaker.ttsToFile("temp");
