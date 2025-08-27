@@ -47,7 +47,7 @@ client.on("messageCreate", async (message) => {
     return;
   }
 
-  if (message.content.length >= 400) {
+  if (message.content.length >= Number(process.env.CHARACTER_LIMIT)) {
     try {
       speaker.tts.setVoiceParams({
         text: fixHisGramer(message.content),
