@@ -8,13 +8,13 @@
     "start": "NODE_ENV=production bun run index.js"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "bun": "^1.2.21"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "@kingdanx/edge-tts-js": "^1.0.11",
     "discord.js": "^14.22.1",
     "dotenv": "^17.2.1"
   }

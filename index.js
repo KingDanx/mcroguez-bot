@@ -1,12 +1,8 @@
 import { Client, GatewayIntentBits, AttachmentBuilder } from "discord.js";
-import fs from "fs/promises";
-import EdgeTTS from "@kingdanx/edge-tts-js";
 import { randomUUID } from "crypto";
 import { config } from "dotenv";
 
 config();
-
-const speaker = new EdgeTTS();
 
 const client = new Client({
   intents: [
@@ -49,13 +45,27 @@ client.on("messageCreate", async (message) => {
 
   if (message.content.length >= Number(process.env.CHARACTER_LIMIT)) {
     try {
-      speaker.tts.setVoiceParams({
-        text: fixHisGramer(message.content),
+      const reqBody = {
+        download_format: "mp3",
+        input: fixHisGramer(message.content),
+        return_download: true,
+        speed: 1,
+        stream: false,
+        voice: "am_puck",
+      };
+
+      const response = await fetch(process.env.SPEECH_ENDPOINT, {
+        method: "POST",
+        body: JSON.stringify(reqBody),
       });
 
-      const filePath = await speaker.ttsToFile("temp");
+      if (!response.ok) {
+        throw new Error("failed to get audio from speech endpoint.");
+      }
 
-      const file = await fs.readFile(filePath);
+      const blob = await response.arrayBuffer();
+
+      const file = Buffer.from(blob);
 
       await message.reply({
         files: [
@@ -65,10 +75,12 @@ client.on("messageCreate", async (message) => {
         ],
       });
       console.log("Audio file sent successfully!");
-      await fs.rm(filePath);
+      // await fs.rm(filePath);
     } catch (error) {
       console.error("Error sending audio:", error);
-      await message.reply("Failed to send audio file.");
+      await message.reply(
+        `Failed to send audio file. Error: ${error?.message || "unknown"}`
+      );
     }
   }
 });
